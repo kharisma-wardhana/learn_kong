@@ -9,7 +9,7 @@ RUN mvn package -DskipTests
 FROM openjdk:20-ea-19-jdk-slim
 
 # location jar file
-ARG JAR_FILE=merchant-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=auth-0.0.1-SNAPSHOT.jar
 
 # cd /opt/app
 WORKDIR /opt/app

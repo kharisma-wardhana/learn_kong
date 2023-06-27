@@ -34,21 +34,6 @@ services:
       retries: 5
 
   #######################################
-  # PGAdmin: Postgres Client UI
-  #######################################
-  kong-pgadmin:
-    container_name: kong-pgadmin
-    image: dpage/pgadmin4
-    restart: unless-stopped
-    networks:
-      - kong-net
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
-
-  #######################################
   # Kong database migration
   #######################################
   kong-migration:
@@ -149,7 +134,7 @@ services:
       - "9411:9411"
 
   elasticsearch:
-    image: elasticsearch:7.9.2
+    image: elasticsearch:7.17.10
     container_name: elasticsearch
     restart: unless-stopped
     environment:
@@ -162,7 +147,7 @@ services:
       - "9300:9300"
 
   logstash:
-    image: logstash:7.9.2
+    image: logstash:7.17.10
     container_name: logstash
     restart: unless-stopped
     depends_on:
@@ -179,7 +164,7 @@ services:
       - "9600:9600"
 
   kibana:
-    image: kibana:7.9.2
+    image: kibana:7.17.10
     container_name: kibana
     restart: unless-stopped
     environment:
@@ -193,7 +178,7 @@ services:
   # Monitoring & Analytics
   #######################################
   prometheus:
-    image: prom/prometheus:v2.22.0
+    image: prom/prometheus:v2.44.0
     container_name: prometheus
     restart: unless-stopped
     networks:
@@ -204,7 +189,7 @@ services:
       - "9090:9090"
 
   grafana:
-    image: grafana/grafana:7.2.2
+    image: grafana/grafana:10.0.0
     container_name: grafana
     restart: unless-stopped
     networks:
@@ -222,7 +207,7 @@ services:
     depends_on:
       - kong-database
     environment:
-      - spring.datasource.master.url=jdbc:postgresql://kong-database/learn_kong:5432?serverTimezone=Asia/Jakarta
+      - spring.datasource.master.url=jdbc:postgresql://kong-database/learn_kong?serverTimezone=Asia/Jakarta
       - logging.file.path=/var/log
       - logging.file.name=/var/log/users_service.log
     volumes:
@@ -240,7 +225,7 @@ services:
     depends_on:
       - kong-database
     environment:
-      - spring.datasource.master.url=jdbc:postgresql://kong-database/learn_kong:5432?serverTimezone=Asia/Jakarta
+      - spring.datasource.master.url=jdbc:postgresql://kong-database/learn_kong?serverTimezone=Asia/Jakarta
       - logging.file.path=/var/log
       - logging.file.name=/var/log/merchant_service.log
     volumes:
@@ -258,7 +243,7 @@ services:
     depends_on:
       - kong-database
     environment:
-      - spring.datasource.master.url=jdbc:postgresql://kong-database/learn_kong:5432?serverTimezone=Asia/Jakarta
+      - spring.datasource.master.url=jdbc:postgresql://kong-database/learn_kong?serverTimezone=Asia/Jakarta
       - logging.file.path=/var/log
       - logging.file.name=/var/log/transactions_service.log
     volumes:
@@ -268,3 +253,21 @@ services:
         ipv4_address: 172.1.1.13
     ports:
       - "9030:9030"
+
+  auth:
+    image: auth-service:0.0.1
+    container_name: auth-service
+    restart: unless-stopped
+    depends_on:
+      - kong-database
+    environment:
+      - spring.datasource.master.url=jdbc:postgresql://kong-database/learn_kong?serverTimezone=Asia/Jakarta
+      - logging.file.path=/var/log
+      - logging.file.name=/var/log/auth_service.log
+    volumes:
+      - ./app/log:/var/log
+    networks:
+      kong-net:
+        ipv4_address: 172.1.1.14
+    ports:
+      - "9040:9040"

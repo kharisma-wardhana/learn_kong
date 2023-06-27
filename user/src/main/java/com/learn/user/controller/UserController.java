@@ -2,6 +2,7 @@ package com.learn.user.controller;
 
 import com.learn.user.model.BaseResponse;
 import com.learn.user.model.CreateUserReq;
+import com.learn.user.model.SignInRequest;
 import com.learn.user.model.UpdateUserReq;
 import com.learn.user.service.IUserService;
 import com.learn.user.util.IResponseHelper;
@@ -19,9 +20,9 @@ public class UserController implements IResponseHelper {
     public BaseResponse getAllUsers(
             @RequestParam(defaultValue = "1") String page,
             @RequestParam String perPage,
-            @RequestParam String name,
-            @RequestParam String orderBy,
-            @RequestParam String sortBy
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "asc") String orderBy,
+            @RequestParam(defaultValue = "id") String sortBy
     ) {
         return successWithData(userService.getAllUsers());
     }
@@ -41,5 +42,12 @@ public class UserController implements IResponseHelper {
     @PatchMapping
     public BaseResponse updateUserData(@RequestBody @Valid UpdateUserReq request) {
         return successWithData(userService.updateUser(request));
+    }
+
+    @PostMapping(
+            path = "/login"
+    )
+    public BaseResponse loginUser(@RequestBody @Valid SignInRequest request) {
+        return successWithData(userService.loginUser(request));
     }
 }

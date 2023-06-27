@@ -6,14 +6,10 @@ COPY . /usr/src/app
 # Compile and package the application to an executable JAR
 RUN mvn package -DskipTests
 
-FROM openjdk:17-alpine
+FROM openjdk:20-ea-19-jdk-slim
 
 # location jar file
 ARG JAR_FILE=transaction-0.0.1-SNAPSHOT.jar
-
-ENV TZ Asia/Jakarta
-RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
-RUN apk add tzdata
 
 # cd /opt/app
 WORKDIR /opt/app
