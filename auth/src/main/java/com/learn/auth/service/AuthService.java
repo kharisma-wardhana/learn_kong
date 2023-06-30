@@ -24,6 +24,7 @@ public class AuthService implements IAuthService {
     @Override
     public AuthResponse signIn(SignInRequest request) {
         BaseResponse response = userClient.loginUser(request);
+        log.info("response {}", response.toString());
         UserResponse user = mapper.convertValue(response.getData(), UserResponse.class);
         return new AuthResponse(user, generateToken(user));
     }
@@ -31,6 +32,7 @@ public class AuthService implements IAuthService {
     @Override
     public AuthResponse signUp(SignUpRequest request) {
         BaseResponse response = userClient.createNewUser(request);
+        log.info("response {}", response.toString());
         UserResponse user = mapper.convertValue(response.getData(), UserResponse.class);
         return new AuthResponse(user, generateToken(user));
     }
