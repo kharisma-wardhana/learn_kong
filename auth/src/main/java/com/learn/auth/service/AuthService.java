@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 @RequiredArgsConstructor
@@ -40,10 +40,11 @@ public class AuthService implements IAuthService {
     private String generateToken(UserResponse user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256("secret");
+            LocalDateTime expiredDatetime = LocalDateTime.now().plusMinutes(15);
             return JWT.create()
                     .withIssuer("auth0")
                     .withClaim("username", user.username())
-                    .withExpiresAt(Instant.from(LocalDateTime.now().plusMinutes(Long.parseLong("15"))))
+                    .withExpiresAt(expiredDatetime.atZone(ZoneId.systemDefault()).toInstant())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
             // Invalid Signing configuration / Couldn't convert Claims.
