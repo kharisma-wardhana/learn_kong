@@ -1,4 +1,4 @@
-package com.learn.user.service;
+package com.learn.auth.service;
 
 import com.learn.user.model.KongConsumerJWT;
 

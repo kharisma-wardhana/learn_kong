@@ -17,8 +17,9 @@ public abstract class RC {
     public static final int REQUIRED_TOKEN_CODE = 499;
 
     public static final int INTERNAL_ERROR_CODE = 500;
-
+    public static final int KONG_SERVICE_FAILED = 510;
 
     public static final String SUCCESS = "Success";
     public static final String FAILED = "Failed";
+    public static final String KONG_ADMIN_ERROR = "Kong Error";
 }

@@ -1,7 +1,8 @@
-package com.learn.user.service;
+package com.learn.auth.service;
 
 import com.learn.user.model.KongConsumer;
 import com.learn.user.model.KongConsumerJWT;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;

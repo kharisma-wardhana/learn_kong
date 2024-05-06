@@ -198,7 +198,7 @@ services:
       - "3000:3000"
 
   #######################################
-  # Demo services : user, merchant, transaction
+  # Demo services : user, merchant, transaction, auth
   #######################################
   user:
     image: users-service:0.0.1

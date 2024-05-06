@@ -1,9 +1,9 @@
-package com.learn.user.service;
+package com.learn.auth.service;
 
-import com.learn.user.exception.AppException;
+import com.learn.auth.exception.AppException;
 import com.learn.user.model.KongConsumer;
 import com.learn.user.model.KongConsumerJWT;
-import com.learn.user.util.RC;
+import com.learn.auth.util.RC;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
